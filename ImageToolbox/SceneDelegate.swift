@@ -21,11 +21,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Create an instance of the main view controller.
         let mainVC: MainViewController = MainViewController()
         
+        // Create the Navigation Controller and add the main view controller to it.
+        let navController: UINavigationController = UINavigationController(rootViewController: mainVC)
+        navController.navigationBar.topItem?.backButtonTitle = "" // Deletes the "Back" text of the back button in the nav bar.
+        
         // Create the window and add the view controller as the root view.
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         if let window = window {
             window.windowScene = windowScene
-            window.rootViewController = mainVC
+            window.rootViewController = navController
             window.makeKeyAndVisible()
         }
         
