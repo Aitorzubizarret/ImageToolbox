@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController" customModule="ImageToolbox" customModuleProvider="target">
             <connections>
+                <outlet property="compareTwoButton" destination="liq-i6-fd5" id="Wim-8R-RqA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,8 +17,29 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="X8I-dI-Dzr">
+                    <rect key="frame" x="20" y="79" width="353" height="719"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liq-i6-fd5">
+                            <rect key="frame" x="0.0" y="0.0" width="353" height="719"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Compare two images"/>
+                            <connections>
+                                <action selector="compareTwoButtonTapped:" destination="-1" eventType="touchUpInside" id="NCz-qi-cVn"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="X8I-dI-Dzr" secondAttribute="bottom" constant="20" id="151-8L-l5g"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="X8I-dI-Dzr" secondAttribute="trailing" constant="20" id="UU7-7C-Jng"/>
+                <constraint firstItem="X8I-dI-Dzr" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="VNv-1C-o51"/>
+                <constraint firstItem="X8I-dI-Dzr" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="rvp-KZ-UIR"/>
+            </constraints>
             <point key="canvasLocation" x="140" y="20"/>
         </view>
     </objects>

@@ -8,22 +8,27 @@
 import UIKit
 
 class MainViewController: UIViewController {
-
+    
+    // MARK: - UI Elements
+    
+    @IBOutlet weak var compareTwoButton: UIButton!
+    @IBAction func compareTwoButtonTapped(_ sender: Any) {
+        navigateToCompareTwoVC()
+    }
+    
+    // MARK: - Properties
+    
+    // MARK: - Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Image Toolbox"
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func navigateToCompareTwoVC() {
+        let compareTwoVC = CompareTwoViewController()
+        show(compareTwoVC, sender: nil)
     }
-    */
 
 }
