@@ -8,31 +8,30 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
+    // MARK: - Properties
+    
     var window: UIWindow?
-
-
+    private let mainCoordinator = MainCoordinator()
+    
+    // MARK: - Methods
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // Create an instance of the main view controller.
-        let mainVC: MainViewController = MainViewController()
-        
-        // Create the Navigation Controller and add the main view controller to it.
-        let navController: UINavigationController = UINavigationController(rootViewController: mainVC)
-        navController.navigationBar.topItem?.backButtonTitle = "" // Deletes the "Back" text of the back button in the nav bar.
-        
         // Create the window and add the view controller as the root view.
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         if let window = window {
             window.windowScene = windowScene
-            window.rootViewController = navController
+            window.rootViewController = mainCoordinator.rootViewController
             window.makeKeyAndVisible()
+            
+            // Start the Coordinator.
+            mainCoordinator.start()
         }
-        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -62,7 +61,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
 }
 
