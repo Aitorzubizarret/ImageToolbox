@@ -8,22 +8,37 @@
 import UIKit
 
 class CompareTwoViewController: UIViewController {
-
+    
+    // MARK: - UI Elements
+    
+    @IBOutlet weak var bottomImageView: UIImageView!
+    @IBOutlet weak var topImageView: UIImageView!
+    @IBOutlet weak var opacitySlider: UISlider!
+    @IBAction func opacitySliderMoving(_ sender: Any) {
+        changeTopImageViewOpacity(slider: sender as! UISlider)
+    }
+    
+    // MARK: - Properties
+    
+    // MARK: - Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Compare two images"
+        
+        setupView()
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func setupView() {
+        bottomImageView.backgroundColor = UIColor.red
+        topImageView.backgroundColor = UIColor.blue
+        
+        opacitySlider.value = 0
     }
-    */
-
+    
+    private func changeTopImageViewOpacity(slider: UISlider) {
+        topImageView.layer.opacity = slider.value
+    }
+    
 }

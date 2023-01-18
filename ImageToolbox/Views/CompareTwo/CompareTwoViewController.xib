@@ -1,22 +1,63 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CompareTwoViewController" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CompareTwoViewController" customModule="ImageToolbox" customModuleProvider="target">
             <connections>
+                <outlet property="bottomImageView" destination="Izp-xS-8d4" id="Rxd-UE-Kiv"/>
+                <outlet property="opacitySlider" destination="weV-xp-3Kn" id="i5X-nu-4uf"/>
+                <outlet property="topImageView" destination="XJp-hj-pLA" id="c4G-qh-F2U"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Izp-xS-8d4">
+                    <rect key="frame" x="20" y="59" width="353" height="708"/>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XJp-hj-pLA">
+                    <rect key="frame" x="20" y="59" width="353" height="708"/>
+                </imageView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="weV-xp-3Kn">
+                    <rect key="frame" x="18" y="787" width="357" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="Y3L-zj-LmD"/>
+                    </constraints>
+                    <connections>
+                        <action selector="opacitySliderMoving:" destination="-1" eventType="valueChanged" id="7cJ-BR-5pB"/>
+                    </connections>
+                </slider>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="XJp-hj-pLA" firstAttribute="bottom" secondItem="Izp-xS-8d4" secondAttribute="bottom" id="1cF-4g-y7q"/>
+                <constraint firstItem="weV-xp-3Kn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="1u0-6n-iSy"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Izp-xS-8d4" secondAttribute="trailing" constant="20" id="EBV-rX-hLo"/>
+                <constraint firstItem="weV-xp-3Kn" firstAttribute="top" secondItem="Izp-xS-8d4" secondAttribute="bottom" constant="20" id="FAC-f5-2lH"/>
+                <constraint firstItem="XJp-hj-pLA" firstAttribute="trailing" secondItem="Izp-xS-8d4" secondAttribute="trailing" id="HoR-WI-Aap"/>
+                <constraint firstItem="Izp-xS-8d4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="JxJ-PO-Q1A"/>
+                <constraint firstItem="XJp-hj-pLA" firstAttribute="top" secondItem="Izp-xS-8d4" secondAttribute="top" id="Liz-6j-hEf"/>
+                <constraint firstItem="Izp-xS-8d4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Pfj-fz-SOQ"/>
+                <constraint firstItem="XJp-hj-pLA" firstAttribute="leading" secondItem="Izp-xS-8d4" secondAttribute="leading" id="ci3-X5-RWE"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="weV-xp-3Kn" secondAttribute="trailing" constant="20" id="hU7-UJ-bGz"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="weV-xp-3Kn" secondAttribute="bottom" constant="1" id="wIG-u7-VNr"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="21"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
