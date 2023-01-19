@@ -35,6 +35,7 @@ class CompareTwoViewController: UIViewController {
         topImageView.backgroundColor = UIColor.blue
         
         opacitySlider.value = 0
+        topImageView.layer.opacity = opacitySlider.value
     }
     
     private func changeTopImageViewOpacity(slider: UISlider) {
