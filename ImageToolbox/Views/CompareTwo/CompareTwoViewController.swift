@@ -116,6 +116,17 @@ class CompareTwoViewController: UIViewController {
         topImageView.layer.opacity = slider.value
     }
     
+    private func displayPictureInImageView(picture: UIImage) {
+        switch self.selectedImageViewForPictureDisplay {
+        case .bottom:
+            self.bottomImageView.image = picture
+            self.bottomSelectedPhotoImageView.image = picture
+        case .top:
+            self.topImageView.image = picture
+            self.topSelectedPhotoImageView.image = picture
+        }
+    }
+    
     @objc private func selectBottomPicture() {
         selectedImageViewForPictureDisplay = .bottom
         present(photoPickerVC, animated: true)
@@ -137,18 +148,12 @@ extension CompareTwoViewController: PHPickerViewControllerDelegate {
         
         results.forEach { result in
             result.itemProvider.loadObject(ofClass: UIImage.self) { reading, error in
+                
                 guard let image = reading as? UIImage,
                       error == nil else { return }
                 
                 DispatchQueue.main.async {
-                    switch self.selectedImageViewForPictureDisplay {
-                    case .bottom:
-                        self.bottomImageView.image = image
-                        self.bottomSelectedPhotoImageView.image = image
-                    case .top:
-                        self.topImageView.image = image
-                        self.topSelectedPhotoImageView.image = image
-                    }
+                    self.displayPictureInImageView(picture: image)
                 }
             }
         }
