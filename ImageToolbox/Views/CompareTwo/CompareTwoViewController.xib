@@ -11,8 +11,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CompareTwoViewController" customModule="ImageToolbox" customModuleProvider="target">
             <connections>
                 <outlet property="bottomImageView" destination="Izp-xS-8d4" id="Rxd-UE-Kiv"/>
+                <outlet property="bottomSelectedPhotoImageView" destination="RO6-1d-94j" id="gKh-og-Pls"/>
                 <outlet property="opacitySlider" destination="weV-xp-3Kn" id="i5X-nu-4uf"/>
                 <outlet property="topImageView" destination="XJp-hj-pLA" id="c4G-qh-F2U"/>
+                <outlet property="topSelectedPhotoImageView" destination="oWf-Ry-9XF" id="mRe-0S-eaH"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,13 +24,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Izp-xS-8d4">
-                    <rect key="frame" x="20" y="59" width="353" height="708"/>
+                    <rect key="frame" x="20" y="59" width="353" height="599"/>
                 </imageView>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XJp-hj-pLA">
-                    <rect key="frame" x="20" y="59" width="353" height="708"/>
+                    <rect key="frame" x="20" y="59" width="353" height="599"/>
                 </imageView>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="weV-xp-3Kn">
-                    <rect key="frame" x="18" y="787" width="357" height="31"/>
+                    <rect key="frame" x="18" y="678" width="357" height="31"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="Y3L-zj-LmD"/>
                     </constraints>
@@ -36,6 +38,34 @@
                         <action selector="opacitySliderMoving:" destination="-1" eventType="valueChanged" id="7cJ-BR-5pB"/>
                     </connections>
                 </slider>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TGP-od-TfD">
+                    <rect key="frame" x="20" y="728" width="353" height="70"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RO6-1d-94j">
+                            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                            <color key="backgroundColor" systemColor="systemPinkColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="RO6-1d-94j" secondAttribute="height" multiplier="1:1" id="j5K-dd-hTL"/>
+                            </constraints>
+                        </imageView>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oWf-Ry-9XF">
+                            <rect key="frame" x="90" y="0.0" width="70" height="70"/>
+                            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="oWf-Ry-9XF" secondAttribute="height" multiplier="1:1" id="ZhV-WV-CHc"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="RO6-1d-94j" firstAttribute="leading" secondItem="TGP-od-TfD" secondAttribute="leading" id="2t4-CN-RJM"/>
+                        <constraint firstAttribute="bottom" secondItem="oWf-Ry-9XF" secondAttribute="bottom" id="DlE-RG-klc"/>
+                        <constraint firstItem="oWf-Ry-9XF" firstAttribute="top" secondItem="TGP-od-TfD" secondAttribute="top" id="I56-ZN-yU4"/>
+                        <constraint firstAttribute="height" constant="70" id="VhE-NL-7D4"/>
+                        <constraint firstAttribute="bottom" secondItem="RO6-1d-94j" secondAttribute="bottom" id="XRn-EJ-Q4I"/>
+                        <constraint firstItem="oWf-Ry-9XF" firstAttribute="leading" secondItem="RO6-1d-94j" secondAttribute="trailing" constant="20" id="kfo-Pf-zfr"/>
+                        <constraint firstItem="RO6-1d-94j" firstAttribute="top" secondItem="TGP-od-TfD" secondAttribute="top" id="pBO-9O-6xq"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -43,6 +73,7 @@
                 <constraint firstItem="XJp-hj-pLA" firstAttribute="bottom" secondItem="Izp-xS-8d4" secondAttribute="bottom" id="1cF-4g-y7q"/>
                 <constraint firstItem="weV-xp-3Kn" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="1u0-6n-iSy"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Izp-xS-8d4" secondAttribute="trailing" constant="20" id="EBV-rX-hLo"/>
+                <constraint firstItem="TGP-od-TfD" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="EMg-w4-4Dj"/>
                 <constraint firstItem="weV-xp-3Kn" firstAttribute="top" secondItem="Izp-xS-8d4" secondAttribute="bottom" constant="20" id="FAC-f5-2lH"/>
                 <constraint firstItem="XJp-hj-pLA" firstAttribute="trailing" secondItem="Izp-xS-8d4" secondAttribute="trailing" id="HoR-WI-Aap"/>
                 <constraint firstItem="Izp-xS-8d4" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="JxJ-PO-Q1A"/>
@@ -50,7 +81,9 @@
                 <constraint firstItem="Izp-xS-8d4" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Pfj-fz-SOQ"/>
                 <constraint firstItem="XJp-hj-pLA" firstAttribute="leading" secondItem="Izp-xS-8d4" secondAttribute="leading" id="ci3-X5-RWE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="weV-xp-3Kn" secondAttribute="trailing" constant="20" id="hU7-UJ-bGz"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="weV-xp-3Kn" secondAttribute="bottom" constant="1" id="wIG-u7-VNr"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="TGP-od-TfD" secondAttribute="bottom" constant="20" id="r7h-nm-Mi1"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="TGP-od-TfD" secondAttribute="trailing" constant="20" id="slG-jF-GXX"/>
+                <constraint firstItem="TGP-od-TfD" firstAttribute="top" secondItem="weV-xp-3Kn" secondAttribute="bottom" constant="20" id="zVO-QC-nAu"/>
             </constraints>
             <point key="canvasLocation" x="139" y="21"/>
         </view>
@@ -58,6 +91,12 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
