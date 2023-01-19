@@ -14,6 +14,9 @@ class CompareTwoViewController: UIViewController {
     
     @IBOutlet weak var bottomImageView: UIImageView!
     @IBOutlet weak var topImageView: UIImageView!
+    
+    @IBOutlet weak var controlsView: UIView!
+    
     @IBOutlet weak var opacitySlider: UISlider!
     @IBAction func opacitySliderMoving(_ sender: Any) {
         changeTopImageViewOpacity(slider: sender as! UISlider)
@@ -50,35 +53,53 @@ class CompareTwoViewController: UIViewController {
         title = "Compare two images"
         
         setupView()
+        setupPictureSelectionImageViews()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setupControlsView()
     }
     
     private func setupView() {
         // UIImageViews
-        bottomImageView.backgroundColor = UIColor.red
-        topImageView.backgroundColor = UIColor.blue
-        
-        setupPictureSelectionImageViews()
+        bottomImageView.contentMode = .scaleAspectFit
+        topImageView.contentMode = .scaleAspectFit
         
         // UISlider
         opacitySlider.value = 0
         topImageView.layer.opacity = opacitySlider.value
     }
     
+    private func setupControlsView() {
+        let borderWidth: CGFloat = 1
+        let borderColor: CGColor = UIColor.systemGray3.cgColor
+        
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: 0, y: 0, width: controlsView.frame.width, height: borderWidth)
+        topBorder.backgroundColor = borderColor
+        
+        controlsView.layer.addSublayer(topBorder)
+    }
+    
     private func setupPictureSelectionImageViews() {
+        // Content mode.
+        bottomSelectedPhotoImageView.contentMode = .scaleAspectFill
+        topSelectedPhotoImageView.contentMode = .scaleAspectFill
+        
+        // Image.
+        bottomSelectedPhotoImageView.image = UIImage(named: "addImagePlaceholder")
+        topSelectedPhotoImageView.image = UIImage(named: "addImagePlaceholder")
+        
         // Corner Radius.
         bottomSelectedPhotoImageView.layer.cornerRadius = 4
         topSelectedPhotoImageView.layer.cornerRadius = 4
         
         // Border.
         bottomSelectedPhotoImageView.layer.borderWidth = 1
-        bottomSelectedPhotoImageView.layer.borderColor = UIColor.black.cgColor
+        bottomSelectedPhotoImageView.layer.borderColor = UIColor.systemGray2.cgColor
         
         topSelectedPhotoImageView.layer.borderWidth = 1
-        topSelectedPhotoImageView.layer.borderColor = UIColor.black.cgColor
-        
-        // Content mode.
-        bottomSelectedPhotoImageView.contentMode = .scaleAspectFill
-        topSelectedPhotoImageView.contentMode = .scaleAspectFill
+        topSelectedPhotoImageView.layer.borderColor = UIColor.systemGray2.cgColor
         
         // Gesture Recognizers.
         let selectBottomPhotoGR = UITapGestureRecognizer(target: self, action: #selector(selectBottomPicture))
