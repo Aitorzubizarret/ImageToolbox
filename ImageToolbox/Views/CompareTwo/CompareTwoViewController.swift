@@ -115,12 +115,22 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func displayPictureInImageView(picture: UIImage) {
+        var currentPicture = picture
+        
         // Delete all previous layers.
         imageView.layer.sublayers?.removeAll()
         
+        // Checks picture orientation and corrects it by rotating.
+        switch picture.imageOrientation {
+        case .left, .right, .down:
+            currentPicture = picture.correctOrientation() ?? picture
+        default:
+            print("")
+        }
+        
         // Sizes.
-        let pictureWidth: CGFloat = picture.size.width
-        let pictureHeight: CGFloat = picture.size.height
+        let pictureWidth: CGFloat = currentPicture.size.width
+        let pictureHeight: CGFloat = currentPicture.size.height
         let frameWidth: CGFloat = imageView.frame.width
         let frameHeight: CGFloat = imageView.frame.height
         
@@ -134,7 +144,7 @@ class CompareTwoViewController: UIViewController {
                                               y: 0,
                                               width: frameWidth,
                                               height: frameHeight)
-            bottomPictureLayer.contents = picture.cgImage
+            bottomPictureLayer.contents = currentPicture.cgImage
             bottomPictureLayer.contentsGravity = .center
             bottomPictureLayer.contentsScale = scale
             
@@ -143,7 +153,7 @@ class CompareTwoViewController: UIViewController {
             // Top Picture Layer.
             imageView.layer.addSublayer(topPictureLayer)
             
-            self.bottomSelectedPhotoImageView.image = picture
+            self.bottomSelectedPhotoImageView.image = currentPicture
         case .top:
             // Bottom Picture Layer.
             imageView.layer.addSublayer(bottomPictureLayer)
@@ -153,13 +163,13 @@ class CompareTwoViewController: UIViewController {
                                            y: 0,
                                            width: frameWidth,
                                            height: frameHeight)
-            topPictureLayer.contents = picture.cgImage
+            topPictureLayer.contents = currentPicture.cgImage
             topPictureLayer.contentsGravity = .center
             topPictureLayer.contentsScale = scale
             
             imageView.layer.addSublayer(topPictureLayer)
             
-            self.topSelectedPhotoImageView.image = picture
+            self.topSelectedPhotoImageView.image = currentPicture
         }
     }
     
