@@ -134,8 +134,16 @@ class CompareTwoViewController: UIViewController {
         let frameWidth: CGFloat = imageView.frame.width
         let frameHeight: CGFloat = imageView.frame.height
         
-        // Checks if the width of a picture is bigger than its height.
-        let scale: CGFloat = (pictureWidth > pictureHeight) ? (pictureWidth / frameWidth) : (pictureHeight / frameHeight)
+        let widthScale: CGFloat = pictureWidth / frameWidth
+        let heightScale: CGFloat = pictureHeight / frameHeight
+        var scale: CGFloat = 0
+        
+        // Checks which scale value is better for the picture, taking into account the frame size.
+        if (pictureWidth / widthScale <= frameWidth) && (pictureHeight / widthScale <= frameHeight) {
+            scale = widthScale
+        } else {
+            scale = heightScale
+        }
         
         switch self.selectedImageViewForPictureDisplay {
         case .bottom:
