@@ -118,12 +118,14 @@ class CompareTwoViewController: UIViewController {
         // Delete all previous layers.
         imageView.layer.sublayers?.removeAll()
         
-        // Sized.
+        // Sizes.
         let pictureWidth: CGFloat = picture.size.width
         let pictureHeight: CGFloat = picture.size.height
         let frameWidth: CGFloat = imageView.frame.width
         let frameHeight: CGFloat = imageView.frame.height
-        let scale: CGFloat = pictureHeight / frameHeight
+        
+        // Checks if the width of a picture is bigger than its height.
+        let scale: CGFloat = (pictureWidth > pictureHeight) ? (pictureWidth / frameWidth) : (pictureHeight / frameHeight)
         
         switch self.selectedImageViewForPictureDisplay {
         case .bottom:
