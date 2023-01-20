@@ -12,8 +12,7 @@ class CompareTwoViewController: UIViewController {
     
     // MARK: - UI Elements
     
-    @IBOutlet weak var bottomImageView: UIImageView!
-    @IBOutlet weak var topImageView: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var controlsView: UIView!
     
@@ -45,6 +44,9 @@ class CompareTwoViewController: UIViewController {
     }
     var selectedImageViewForPictureDisplay: PicturePosition = .bottom
     
+    var bottomPictureLayer = CALayer()
+    var topPictureLayer = CALayer()
+    
     // MARK: - Methods
     
     override func viewDidLoad() {
@@ -61,13 +63,9 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func setupView() {
-        // UIImageViews
-        bottomImageView.contentMode = .scaleAspectFit
-        topImageView.contentMode = .scaleAspectFit
-        
         // UISlider
         opacitySlider.value = 0
-        topImageView.layer.opacity = opacitySlider.value
+        topPictureLayer.opacity = opacitySlider.value
     }
     
     private func setupControlsView() {
@@ -113,16 +111,52 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func changeTopImageViewOpacity(slider: UISlider) {
-        topImageView.layer.opacity = slider.value
+        topPictureLayer.opacity = slider.value
     }
     
     private func displayPictureInImageView(picture: UIImage) {
+        // Delete all previous layers.
+        imageView.layer.sublayers?.removeAll()
+        
+        // Sized.
+        let pictureWidth: CGFloat = picture.size.width
+        let pictureHeight: CGFloat = picture.size.height
+        let frameWidth: CGFloat = imageView.frame.width
+        let frameHeight: CGFloat = imageView.frame.height
+        let scale: CGFloat = pictureHeight / frameHeight
+        
         switch self.selectedImageViewForPictureDisplay {
         case .bottom:
-            self.bottomImageView.image = picture
+            // Bottom Picture Layer.
+            bottomPictureLayer.frame = CGRect(x: 0,
+                                              y: 0,
+                                              width: frameWidth,
+                                              height: frameHeight)
+            bottomPictureLayer.contents = picture.cgImage
+            bottomPictureLayer.contentsGravity = .center
+            bottomPictureLayer.contentsScale = scale
+            
+            imageView.layer.addSublayer(bottomPictureLayer)
+            
+            // Top Picture Layer.
+            imageView.layer.addSublayer(topPictureLayer)
+            
             self.bottomSelectedPhotoImageView.image = picture
         case .top:
-            self.topImageView.image = picture
+            // Bottom Picture Layer.
+            imageView.layer.addSublayer(bottomPictureLayer)
+            
+            // Top Picture Layer.
+            topPictureLayer.frame = CGRect(x: 0,
+                                           y: 0,
+                                           width: frameWidth,
+                                           height: frameHeight)
+            topPictureLayer.contents = picture.cgImage
+            topPictureLayer.contentsGravity = .center
+            topPictureLayer.contentsScale = scale
+            
+            imageView.layer.addSublayer(topPictureLayer)
+            
             self.topSelectedPhotoImageView.image = picture
         }
     }
