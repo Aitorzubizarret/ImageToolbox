@@ -139,28 +139,28 @@
 		1A38A5C32975870A00000A0B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1A38A5C42975871900000A0B /* Main */,
-				1A38A5CA29758C8000000A0B /* CompareTwo */,
+				1A38A5C42975871900000A0B /* MainViewController */,
+				1A38A5CA29758C8000000A0B /* CompareTwoViewController */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		1A38A5C42975871900000A0B /* Main */ = {
+		1A38A5C42975871900000A0B /* MainViewController */ = {
 			isa = PBXGroup;
 			children = (
 				1A38A5BF2974BB3C00000A0B /* MainViewController.swift */,
 				1A38A5C02974BB3C00000A0B /* MainViewController.xib */,
 			);
-			path = Main;
+			path = MainViewController;
 			sourceTree = "<group>";
 		};
-		1A38A5CA29758C8000000A0B /* CompareTwo */ = {
+		1A38A5CA29758C8000000A0B /* CompareTwoViewController */ = {
 			isa = PBXGroup;
 			children = (
 				1A38A5CB29758C9700000A0B /* CompareTwoViewController.swift */,
 				1A38A5CC29758C9700000A0B /* CompareTwoViewController.xib */,
 			);
-			path = CompareTwo;
+			path = CompareTwoViewController;
 			sourceTree = "<group>";
 		};
 		1A38A5D1297AA07800000A0B /* Extensions */ = {
