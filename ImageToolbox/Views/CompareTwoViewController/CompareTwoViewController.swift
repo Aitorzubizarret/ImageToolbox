@@ -48,21 +48,8 @@ class CompareTwoViewController: UIViewController {
     var bottomPictureLayer = CALayer()
     var topPictureLayer = CALayer()
     
-    var bottomPicture: UIImage?
-    var topPicture: UIImage?
-    
-    var bottomPictureOriginalScale: CGFloat = 1
-    var bottomPictureCurrentScale: CGFloat = 1 {
-        didSet {
-            resizeDisplayedPictures(picturePosition: .bottom)
-        }
-    }
-    var topPictureOriginalScale: CGFloat = 1
-    var topPictureCurrentScale: CGFloat = 1 {
-        didSet {
-            resizeDisplayedPictures(picturePosition: .top)
-        }
-    }
+    var bottomPicture: Picture?
+    var topPicture: Picture?
     
     var frameWidth: CGFloat = 0
     var frameHeight: CGFloat = 0
@@ -143,18 +130,10 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func displayPictureInImageView(picture: UIImage) {
-        var currentPicture = picture
+        let currentPicture = Picture(image: picture)
         
         // Delete all previous layers.
         imageView.layer.sublayers?.removeAll()
-        
-        // Checks picture orientation and corrects it by rotating.
-        switch picture.imageOrientation {
-        case .left, .right, .down:
-            currentPicture = picture.correctOrientation() ?? picture
-        default:
-            print("")
-        }
         
         switch self.selectedImageViewForPictureDisplay {
         case .bottom:
@@ -164,33 +143,23 @@ class CompareTwoViewController: UIViewController {
         }
         
         // Sizes.
-        let pictureWidth: CGFloat = currentPicture.size.width
-        let pictureHeight: CGFloat = currentPicture.size.height
+        let pictureWidth: CGFloat = currentPicture.image.size.width
+        let pictureHeight: CGFloat = currentPicture.image.size.height
         
         let widthScale: CGFloat = pictureWidth / frameWidth
         let heightScale: CGFloat = pictureHeight / frameHeight
         
         // Checks which scale value is better for the picture, taking into account the frame size.
         if (pictureWidth / widthScale <= frameWidth) && (pictureHeight / widthScale <= frameHeight) {
-            switch selectedImageViewForPictureDisplay {
-            case .bottom:
-                bottomPictureOriginalScale = widthScale
-                bottomPictureCurrentScale = widthScale
-            case .top:
-                topPictureOriginalScale = widthScale
-                topPictureCurrentScale = widthScale
-            }
+            currentPicture.originalScale = widthScale
+            currentPicture.currentScale = widthScale
         } else {
-            switch selectedImageViewForPictureDisplay {
-            case .bottom:
-                bottomPictureOriginalScale = heightScale
-                bottomPictureCurrentScale = heightScale
-            case .top:
-                topPictureOriginalScale = heightScale
-                topPictureCurrentScale = heightScale
-            }
+            currentPicture.originalScale = heightScale
+            currentPicture.currentScale = heightScale
         }
         
+        resizeDisplayedPictures(picturePosition: .bottom)
+        resizeDisplayedPictures(picturePosition: .top)
     }
     
     private func resizeDisplayedPictures(picturePosition: PicturePosition) {
@@ -202,16 +171,16 @@ class CompareTwoViewController: UIViewController {
                                                   y: 0,
                                                   width: frameWidth,
                                                   height: frameHeight)
-                bottomPictureLayer.contents = bottomPicture.cgImage
+                bottomPictureLayer.contents = bottomPicture.image.cgImage
                 bottomPictureLayer.contentsGravity = .center
-                bottomPictureLayer.contentsScale = bottomPictureCurrentScale
+                bottomPictureLayer.contentsScale = bottomPicture.currentScale
                 
                 imageView.layer.addSublayer(bottomPictureLayer)
                 
                 // Top Picture Layer.
                 imageView.layer.addSublayer(topPictureLayer)
                 
-                self.bottomSelectedPhotoImageView.image = bottomPicture
+                self.bottomSelectedPhotoImageView.image = bottomPicture.image
             }
         case .top:
             if let topPicture = topPicture {
@@ -223,13 +192,13 @@ class CompareTwoViewController: UIViewController {
                                                y: 0,
                                                width: frameWidth,
                                                height: frameHeight)
-                topPictureLayer.contents = topPicture.cgImage
+                topPictureLayer.contents = topPicture.image.cgImage
                 topPictureLayer.contentsGravity = .center
-                topPictureLayer.contentsScale = topPictureCurrentScale
+                topPictureLayer.contentsScale = topPicture.currentScale
                 
                 imageView.layer.addSublayer(topPictureLayer)
                 
-                self.topSelectedPhotoImageView.image = topPicture
+                self.topSelectedPhotoImageView.image = topPicture.image
             }
         }
     }
@@ -246,12 +215,15 @@ class CompareTwoViewController: UIViewController {
     
     @objc private func pinchImage(sender: UIPinchGestureRecognizer) {
         if sender.state == .began || sender.state == .changed {
+            guard let bottomPicture = bottomPicture,
+                  let topPicture = topPicture else { return }
+            
             /// The value received by the PinchGR, makes the image smaller when zoom-in, and bigger when zoom-out.
             /// To "fix" this :
             /// Zoom-in   => Received value 1,014 => Correct value => 0,986 (Smaller than 1) => 2 - 1,014
             /// Zoom-out => Received value 0,98   => Correct value => 1,02 (Bigger than 1) => 2 - 0,98
-            var newBottomPictureScale = bottomPictureCurrentScale * (2 - sender.scale)
-            var newTopPictureScale = topPictureCurrentScale * (2 - sender.scale)
+            var newBottomPictureScale = bottomPicture.currentScale * (2 - sender.scale)
+            var newTopPictureScale = topPicture.currentScale * (2 - sender.scale)
             
             if newBottomPictureScale < 1 {
                 newBottomPictureScale = 1
@@ -260,16 +232,20 @@ class CompareTwoViewController: UIViewController {
                 newTopPictureScale = 1
             }
             
-            if newBottomPictureScale > (bottomPictureOriginalScale + 2) {
-                newBottomPictureScale = bottomPictureOriginalScale + 2
+            if newBottomPictureScale > (bottomPicture.originalScale + 2) {
+                newBottomPictureScale = bottomPicture.originalScale + 2
             }
-            if newTopPictureScale > (topPictureOriginalScale + 2) {
-                newTopPictureScale = topPictureOriginalScale + 2
+            if newTopPictureScale > (topPicture.originalScale + 2) {
+                newTopPictureScale = topPicture.originalScale + 2
             }
             
-            bottomPictureCurrentScale = newBottomPictureScale
-            topPictureCurrentScale = newTopPictureScale
+            bottomPicture.currentScale = newBottomPictureScale
+            topPicture.currentScale = newBottomPictureScale
+            
             sender.scale = 1
+            
+            resizeDisplayedPictures(picturePosition: .bottom)
+            resizeDisplayedPictures(picturePosition: .top)
         }
     }
     

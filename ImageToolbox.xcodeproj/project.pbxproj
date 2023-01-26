@@ -20,6 +20,7 @@
 		1A38A5CE29758C9700000A0B /* CompareTwoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A38A5CC29758C9700000A0B /* CompareTwoViewController.xib */; };
 		1A38A5D02975BDD000000A0B /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38A5CF2975BDD000000A0B /* MainCoordinator.swift */; };
 		1A38A5D3297AA08A00000A0B /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A38A5D2297AA08A00000A0B /* UIImage+Extension.swift */; };
+		1AD6763F2981E81C00D85027 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD6763E2981E81C00D85027 /* Picture.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		1A38A5CC29758C9700000A0B /* CompareTwoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CompareTwoViewController.xib; sourceTree = "<group>"; };
 		1A38A5CF2975BDD000000A0B /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		1A38A5D2297AA08A00000A0B /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		1AD6763E2981E81C00D85027 /* Picture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				1A38A5D1297AA07800000A0B /* Extensions */,
+				1AD6763D2981E80B00D85027 /* Models */,
 				1A38A5C32975870A00000A0B /* Views */,
 				1A38A58F2970669600000A0B /* AppDelegate.swift */,
 				1A38A5912970669600000A0B /* SceneDelegate.swift */,
@@ -169,6 +172,14 @@
 				1A38A5D2297AA08A00000A0B /* UIImage+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1AD6763D2981E80B00D85027 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1AD6763E2981E81C00D85027 /* Picture.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -307,6 +318,7 @@
 				1A38A5CD29758C9700000A0B /* CompareTwoViewController.swift in Sources */,
 				1A38A5902970669600000A0B /* AppDelegate.swift in Sources */,
 				1A38A5D3297AA08A00000A0B /* UIImage+Extension.swift in Sources */,
+				1AD6763F2981E81C00D85027 /* Picture.swift in Sources */,
 				1A38A5D02975BDD000000A0B /* MainCoordinator.swift in Sources */,
 				1A38A5922970669600000A0B /* SceneDelegate.swift in Sources */,
 			);
