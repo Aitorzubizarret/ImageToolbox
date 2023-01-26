@@ -39,7 +39,13 @@ class CompareTwoViewController: UIViewController {
         return phPickerVC
     }
     
-    var pictures: [Picture] = []
+    var bottomPicture: Picture?
+    var topPicture: Picture?
+    enum PicturePosition {
+        case bottom
+        case top
+    }
+    var selectedPicturePosition: PicturePosition?
     
     var topLayerOpacity: Float = 0 {
         didSet {
@@ -115,89 +121,87 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func changeTopImageViewOpacity() {
-        if pictures.count == 2 {
-            let topPicture = pictures[1]
+        if let topPicture = topPicture {
             topPicture.layer.opacity = topLayerOpacity
         }
     }
     
     private func displayPictureInImageView(picture: UIImage) {
         let currentPicture = Picture(image: picture, frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
-        pictures.append(currentPicture)
-        imageView.layer.addSublayer(currentPicture.layer)
         
-        switch pictures.count {
-        case 1:
-            bottomSelectedPhotoImageView.image = pictures[0].image
-        case 2:
+        guard let selectedPicturePosition = selectedPicturePosition else { return }
+        
+        switch selectedPicturePosition {
+        case .bottom:
+            bottomPicture = currentPicture
+            bottomSelectedPhotoImageView.image = currentPicture.image
+        case .top:
+            topPicture = currentPicture
             currentPicture.layer.opacity = topLayerOpacity
-            topSelectedPhotoImageView.image = pictures[1].image
-        default:
-            print("")
+            topSelectedPhotoImageView.image = currentPicture.image
         }
+        
+        imageView.layer.addSublayer(currentPicture.layer)
     }
     
     private func resizeDisplayedPictures() {
-        switch pictures.count {
-        case 1:
-            let bottomPicture = pictures[0]
+        if let bottomPicture = bottomPicture {
             bottomPicture.layer.contentsScale = bottomPicture.currentScale
-        case 2:
-            let bottomPicture = pictures[0]
-            bottomPicture.layer.contentsScale = bottomPicture.currentScale
-            
-            let topPicture = pictures[1]
+        }
+        if let topPicture = topPicture {
             topPicture.layer.contentsScale = topPicture.currentScale
             topPicture.layer.opacity = topLayerOpacity
-            
-            topSelectedPhotoImageView.image = topPicture.image
-        default:
-            print("")
         }
     }
     
     @objc private func selectBottomPicture() {
-        present(photoPickerVC, animated: true)
+        selectedPicturePosition = .bottom
+        
+        if bottomPicture == nil {
+            present(photoPickerVC, animated: true)
+        }
     }
     
     @objc private func selectTopPicture() {
-        present(photoPickerVC, animated: true)
+        selectedPicturePosition = .top
+        
+        if topPicture == nil {
+            present(photoPickerVC, animated: true)
+        }
     }
     
     @objc private func pinchImage(sender: UIPinchGestureRecognizer) {
         if sender.state == .began || sender.state == .changed {
-            if pictures.count == 2 {
-                let bottomPicture = pictures[0]
-                let topPicture = pictures[1]
-                
-                /// The value received by the PinchGR, makes the image smaller when zoom-in, and bigger when zoom-out.
-                /// To "fix" this :
-                /// Zoom-in   => Received value 1,014 => Correct value => 0,986 (Smaller than 1) => 2 - 1,014
-                /// Zoom-out => Received value 0,98   => Correct value => 1,02 (Bigger than 1) => 2 - 0,98
-                var newBottomPictureScale = bottomPicture.currentScale * (2 - sender.scale)
-                var newTopPictureScale = topPicture.currentScale * (2 - sender.scale)
-                
-                if newBottomPictureScale < 1 {
-                    newBottomPictureScale = 1
-                }
-                if newTopPictureScale < 1 {
-                    newTopPictureScale = 1
-                }
-                
-                if newBottomPictureScale > (bottomPicture.originalScale + 2) {
-                    newBottomPictureScale = bottomPicture.originalScale + 2
-                }
-                if newTopPictureScale > (topPicture.originalScale + 2) {
-                    newTopPictureScale = topPicture.originalScale + 2
-                }
-                
-                bottomPicture.currentScale = newBottomPictureScale
-                topPicture.currentScale = newBottomPictureScale
-                
-                sender.scale = 1
-                
-                resizeDisplayedPictures()
+            guard let bottomPicture = bottomPicture,
+                  let topPicture = topPicture else { return }
+            
+            /// The value received by the PinchGR, makes the image smaller when zoom-in, and bigger when zoom-out.
+            /// To "fix" this :
+            /// Zoom-in   => Received value 1,014 => Correct value => 0,986 (Smaller than 1) => 2 - 1,014
+            /// Zoom-out => Received value 0,98   => Correct value => 1,02 (Bigger than 1) => 2 - 0,98
+            var newBottomPictureScale = bottomPicture.currentScale * (2 - sender.scale)
+            var newTopPictureScale = topPicture.currentScale * (2 - sender.scale)
+            
+            if newBottomPictureScale < 1 {
+                newBottomPictureScale = 1
             }
+            if newTopPictureScale < 1 {
+                newTopPictureScale = 1
+            }
+            
+            if newBottomPictureScale > (bottomPicture.originalScale + 2) {
+                newBottomPictureScale = bottomPicture.originalScale + 2
+            }
+            if newTopPictureScale > (topPicture.originalScale + 2) {
+                newTopPictureScale = topPicture.originalScale + 2
+            }
+            
+            bottomPicture.currentScale = newBottomPictureScale
+            topPicture.currentScale = newBottomPictureScale
+            
+            sender.scale = 1
+            
+            resizeDisplayedPictures()
         }
     }
     
