@@ -49,9 +49,6 @@ class CompareTwoViewController: UIViewController {
     var bottomPicture: Picture?
     var topPicture: Picture?
     
-    var frameWidth: CGFloat = 0
-    var frameHeight: CGFloat = 0
-    
     var topLayerOpacity: Float = 0 {
         didSet {
             changeTopImageViewOpacity()
@@ -70,9 +67,6 @@ class CompareTwoViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        frameWidth = imageView.frame.width
-        frameHeight = imageView.frame.height
-        
         setupControlsView()
     }
     
@@ -135,7 +129,7 @@ class CompareTwoViewController: UIViewController {
     }
     
     private func displayPictureInImageView(picture: UIImage) {
-        let currentPicture = Picture(image: picture)
+        let currentPicture = Picture(image: picture, frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
         
         // Delete all previous layers.
         imageView.layer.sublayers?.removeAll()
@@ -147,22 +141,6 @@ class CompareTwoViewController: UIViewController {
             topPicture = currentPicture
         }
         
-        // Sizes.
-        let pictureWidth: CGFloat = currentPicture.image.size.width
-        let pictureHeight: CGFloat = currentPicture.image.size.height
-        
-        let widthScale: CGFloat = pictureWidth / frameWidth
-        let heightScale: CGFloat = pictureHeight / frameHeight
-        
-        // Checks which scale value is better for the picture, taking into account the frame size.
-        if (pictureWidth / widthScale <= frameWidth) && (pictureHeight / widthScale <= frameHeight) {
-            currentPicture.originalScale = widthScale
-            currentPicture.currentScale = widthScale
-        } else {
-            currentPicture.originalScale = heightScale
-            currentPicture.currentScale = heightScale
-        }
-        
         resizeDisplayedPictures(picturePosition: .bottom)
         resizeDisplayedPictures(picturePosition: .top)
     }
@@ -171,12 +149,7 @@ class CompareTwoViewController: UIViewController {
         switch picturePosition {
         case .bottom:
             if let bottomPicture = bottomPicture {
-                // Bottom Picture Layer.
-                bottomPicture.layer.frame = CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight)
-                bottomPicture.layer.contents = bottomPicture.image.cgImage
-                bottomPicture.layer.contentsGravity = .center
                 bottomPicture.layer.contentsScale = bottomPicture.currentScale
-                
                 imageView.layer.addSublayer(bottomPicture.layer)
                 
                 // Top Picture Layer.
@@ -193,13 +166,8 @@ class CompareTwoViewController: UIViewController {
                     imageView.layer.addSublayer(bottomPicture.layer)
                 }
                 
-                // Top Picture Layer.
-                topPicture.layer.frame = CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight)
-                topPicture.layer.contents = topPicture.image.cgImage
-                topPicture.layer.contentsGravity = .center
-                topPicture.layer.contentsScale = topPicture.currentScale
                 topPicture.layer.opacity = topLayerOpacity
-                
+                topPicture.layer.contentsScale = topPicture.currentScale
                 imageView.layer.addSublayer(topPicture.layer)
                 
                 self.topSelectedPhotoImageView.image = topPicture.image
