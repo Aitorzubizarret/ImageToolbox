@@ -123,36 +123,33 @@ class CompareTwoViewController: UIViewController {
     
     private func displayPictureInImageView(picture: UIImage) {
         let currentPicture = Picture(image: picture, frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
-        
         pictures.append(currentPicture)
+        imageView.layer.addSublayer(currentPicture.layer)
         
-        // Delete all previous layers.
-        imageView.layer.sublayers?.removeAll()
-        
-        resizeDisplayedPictures()
+        switch pictures.count {
+        case 1:
+            bottomSelectedPhotoImageView.image = pictures[0].image
+        case 2:
+            currentPicture.layer.opacity = topLayerOpacity
+            topSelectedPhotoImageView.image = pictures[1].image
+        default:
+            print("")
+        }
     }
     
     private func resizeDisplayedPictures() {
-        
         switch pictures.count {
         case 1:
             let bottomPicture = pictures[0]
             bottomPicture.layer.contentsScale = bottomPicture.currentScale
-            
-            imageView.layer.addSublayer(bottomPicture.layer)
-            bottomSelectedPhotoImageView.image = bottomPicture.image
         case 2:
             let bottomPicture = pictures[0]
             bottomPicture.layer.contentsScale = bottomPicture.currentScale
-            
-            imageView.layer.addSublayer(bottomPicture.layer)
-            bottomSelectedPhotoImageView.image = bottomPicture.image
             
             let topPicture = pictures[1]
             topPicture.layer.contentsScale = topPicture.currentScale
             topPicture.layer.opacity = topLayerOpacity
             
-            imageView.layer.addSublayer(topPicture.layer)
             topSelectedPhotoImageView.image = topPicture.image
         default:
             print("")
