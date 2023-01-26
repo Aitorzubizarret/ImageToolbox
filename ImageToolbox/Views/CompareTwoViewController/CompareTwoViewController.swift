@@ -18,7 +18,8 @@ class CompareTwoViewController: UIViewController {
     
     @IBOutlet weak var opacitySlider: UISlider!
     @IBAction func opacitySliderMoving(_ sender: Any) {
-        changeTopImageViewOpacity(slider: sender as! UISlider)
+        let slider = sender as! UISlider
+        topLayerOpacity = slider.value
     }
     
     @IBOutlet weak var bottomSelectedPhotoImageView: UIImageView!
@@ -45,14 +46,17 @@ class CompareTwoViewController: UIViewController {
     
     var selectedImageViewForPictureDisplay: PicturePosition = .bottom
     
-    var bottomPictureLayer = CALayer()
-    var topPictureLayer = CALayer()
-    
     var bottomPicture: Picture?
     var topPicture: Picture?
     
     var frameWidth: CGFloat = 0
     var frameHeight: CGFloat = 0
+    
+    var topLayerOpacity: Float = 0 {
+        didSet {
+            changeTopImageViewOpacity()
+        }
+    }
     
     // MARK: - Methods
     
@@ -74,8 +78,7 @@ class CompareTwoViewController: UIViewController {
     
     private func setupView() {
         // UISlider
-        opacitySlider.value = 0
-        topPictureLayer.opacity = opacitySlider.value
+        opacitySlider.value = topLayerOpacity
         
         // Pinch Gesture Recognizer.
         imageView.isUserInteractionEnabled = true
@@ -125,8 +128,10 @@ class CompareTwoViewController: UIViewController {
         topSelectedPhotoImageView.isUserInteractionEnabled = true
     }
     
-    private func changeTopImageViewOpacity(slider: UISlider) {
-        topPictureLayer.opacity = slider.value
+    private func changeTopImageViewOpacity() {
+        guard let topPicture = topPicture else { return }
+        
+        topPicture.layer.opacity = topLayerOpacity
     }
     
     private func displayPictureInImageView(picture: UIImage) {
@@ -167,36 +172,35 @@ class CompareTwoViewController: UIViewController {
         case .bottom:
             if let bottomPicture = bottomPicture {
                 // Bottom Picture Layer.
-                bottomPictureLayer.frame = CGRect(x: 0,
-                                                  y: 0,
-                                                  width: frameWidth,
-                                                  height: frameHeight)
-                bottomPictureLayer.contents = bottomPicture.image.cgImage
-                bottomPictureLayer.contentsGravity = .center
-                bottomPictureLayer.contentsScale = bottomPicture.currentScale
+                bottomPicture.layer.frame = CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight)
+                bottomPicture.layer.contents = bottomPicture.image.cgImage
+                bottomPicture.layer.contentsGravity = .center
+                bottomPicture.layer.contentsScale = bottomPicture.currentScale
                 
-                imageView.layer.addSublayer(bottomPictureLayer)
+                imageView.layer.addSublayer(bottomPicture.layer)
                 
                 // Top Picture Layer.
-                imageView.layer.addSublayer(topPictureLayer)
+                if let topPicture = topPicture {
+                    imageView.layer.addSublayer(topPicture.layer)
+                }
                 
                 self.bottomSelectedPhotoImageView.image = bottomPicture.image
             }
         case .top:
             if let topPicture = topPicture {
                 // Bottom Picture Layer.
-                imageView.layer.addSublayer(bottomPictureLayer)
+                if let bottomPicture = bottomPicture {
+                    imageView.layer.addSublayer(bottomPicture.layer)
+                }
                 
                 // Top Picture Layer.
-                topPictureLayer.frame = CGRect(x: 0,
-                                               y: 0,
-                                               width: frameWidth,
-                                               height: frameHeight)
-                topPictureLayer.contents = topPicture.image.cgImage
-                topPictureLayer.contentsGravity = .center
-                topPictureLayer.contentsScale = topPicture.currentScale
+                topPicture.layer.frame = CGRect(x: 0, y: 0, width: frameWidth, height: frameHeight)
+                topPicture.layer.contents = topPicture.image.cgImage
+                topPicture.layer.contentsGravity = .center
+                topPicture.layer.contentsScale = topPicture.currentScale
+                topPicture.layer.opacity = topLayerOpacity
                 
-                imageView.layer.addSublayer(topPictureLayer)
+                imageView.layer.addSublayer(topPicture.layer)
                 
                 self.topSelectedPhotoImageView.image = topPicture.image
             }

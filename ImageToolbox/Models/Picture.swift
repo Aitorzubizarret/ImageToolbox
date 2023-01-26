@@ -12,15 +12,16 @@ final class Picture {
     // MARK: - Properties
     
     var image: UIImage
-    var originalScale: CGFloat
-    var currentScale: CGFloat
+    
+    var layer = CALayer()
+    
+    var originalScale: CGFloat = 1
+    var currentScale: CGFloat = 1
     
     // MARK: - Methods
     
     init(image: UIImage) {
         self.image = image
-        self.originalScale = 1
-        self.currentScale = 1
         
         fixImageOrientation()
     }
