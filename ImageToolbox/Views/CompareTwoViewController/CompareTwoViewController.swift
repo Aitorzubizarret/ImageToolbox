@@ -68,6 +68,10 @@ class CompareTwoViewController: UIViewController {
         setupControlsView()
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        updatePicturesSizes()
+    }
+    
     private func setupView() {
         // UISlider
         opacitySlider.value = topLayerOpacity
@@ -152,6 +156,10 @@ class CompareTwoViewController: UIViewController {
             topPicture.layer.contentsScale = topPicture.currentScale
             topPicture.layer.opacity = topLayerOpacity
         }
+    }
+    
+    private func updatePicturesSizes() {
+        // TODO: Create again the layer of both pictures with the new frame sizes.
     }
     
     @objc private func selectBottomPicture() {
