@@ -29,7 +29,7 @@ final class Picture {
         self.frameHeight = frameHeight
         
         fixImageOrientation()
-        createLayer()
+        updateFrameSize(frameWidth: self.frameWidth, frameHeight: self.frameHeight)
     }
     
     // Checks picture orientation and corrects it by rotating.
@@ -40,6 +40,14 @@ final class Picture {
         default:
             print("")
         }
+    }
+    
+    // Updates the CALayer frame size. Used when the devices orientation changes (portrait to landscape or viceversa).
+    func updateFrameSize(frameWidth: CGFloat, frameHeight: CGFloat) {
+        self.frameWidth = frameWidth
+        self.frameHeight = frameHeight
+        
+        createLayer()
     }
     
     private func createLayer() {

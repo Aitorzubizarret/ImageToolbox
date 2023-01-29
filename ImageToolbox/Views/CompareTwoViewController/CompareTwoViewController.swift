@@ -66,10 +66,7 @@ class CompareTwoViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         setupControlsView()
-    }
-    
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        updatePicturesSizes()
+        updatePicturesFrameSize()
     }
     
     private func setupView() {
@@ -158,8 +155,14 @@ class CompareTwoViewController: UIViewController {
         }
     }
     
-    private func updatePicturesSizes() {
-        // TODO: Create again the layer of both pictures with the new frame sizes.
+    private func updatePicturesFrameSize() {
+        if let bottomPicture = bottomPicture {
+            bottomPicture.updateFrameSize(frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
+        }
+        
+        if let topPicture = topPicture {
+            topPicture.updateFrameSize(frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
+        }
     }
     
     @objc private func selectBottomPicture() {
