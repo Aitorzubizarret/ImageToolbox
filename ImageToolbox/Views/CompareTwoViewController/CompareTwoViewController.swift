@@ -19,7 +19,9 @@ class CompareTwoViewController: UIViewController {
     @IBOutlet weak var opacitySlider: UISlider!
     @IBAction func opacitySliderMoving(_ sender: Any) {
         let slider = sender as! UISlider
-        topLayerOpacity = slider.value
+        if let topPicture = topPicture {
+            topPicture.updateOpacity(opacity: slider.value)
+        }
     }
     
     @IBOutlet weak var bottomSelectedPhotoImageView: UIImageView!
@@ -41,17 +43,12 @@ class CompareTwoViewController: UIViewController {
     
     var bottomPicture: Picture?
     var topPicture: Picture?
+    
     enum PicturePosition {
         case bottom
         case top
     }
     var selectedPicturePosition: PicturePosition?
-    
-    var topLayerOpacity: Float = 0 {
-        didSet {
-            changeTopImageViewOpacity()
-        }
-    }
     
     // MARK: - Methods
     
@@ -71,7 +68,7 @@ class CompareTwoViewController: UIViewController {
     
     private func setupView() {
         // UISlider
-        opacitySlider.value = topLayerOpacity
+        opacitySlider.value = 0
         
         // Pinch Gesture Recognizer.
         imageView.isUserInteractionEnabled = true
@@ -121,12 +118,6 @@ class CompareTwoViewController: UIViewController {
         topSelectedPhotoImageView.isUserInteractionEnabled = true
     }
     
-    private func changeTopImageViewOpacity() {
-        if let topPicture = topPicture {
-            topPicture.updateOpacity(opacity: topLayerOpacity)
-        }
-    }
-    
     private func displayPictureInImageView(picture: UIImage) {
         let currentPicture = Picture(image: picture, frameWidth: imageView.frame.width, frameHeight: imageView.frame.height)
         
@@ -134,11 +125,10 @@ class CompareTwoViewController: UIViewController {
         
         switch selectedPicturePosition {
         case .bottom:
-            currentPicture.updateOpacity(opacity: 1)
             bottomPicture = currentPicture
             bottomSelectedPhotoImageView.image = currentPicture.image
         case .top:
-            currentPicture.updateOpacity(opacity: topLayerOpacity)
+            currentPicture.updateOpacity(opacity: 0)
             topPicture = currentPicture
             topSelectedPhotoImageView.image = currentPicture.image
         }
@@ -152,7 +142,6 @@ class CompareTwoViewController: UIViewController {
         }
         if let topPicture = topPicture {
             topPicture.layer.contentsScale = topPicture.currentScale
-            topPicture.layer.opacity = topLayerOpacity
         }
     }
     
