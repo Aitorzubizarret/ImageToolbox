@@ -21,6 +21,12 @@ final class Picture {
     var frameWidth: CGFloat
     var frameHeight: CGFloat
     
+    var opacity: Float = 1 {
+        didSet {
+            layer.opacity = opacity
+        }
+    }
+    
     // MARK: - Methods
     
     init(image: UIImage, frameWidth: CGFloat, frameHeight: CGFloat) {
@@ -50,6 +56,10 @@ final class Picture {
         createLayer()
     }
     
+    func updateOpacity(opacity: Float) {
+        self.opacity = opacity
+    }
+    
     private func createLayer() {
         // Sizes and scales.
         let pictureWidth: CGFloat = image.size.width
@@ -75,7 +85,6 @@ final class Picture {
         layer.contents = image.cgImage
         layer.contentsGravity = .center
         layer.contentsScale = currentScale
-        layer.opacity = 1
     }
     
 }

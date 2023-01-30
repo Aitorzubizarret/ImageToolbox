@@ -123,7 +123,7 @@ class CompareTwoViewController: UIViewController {
     
     private func changeTopImageViewOpacity() {
         if let topPicture = topPicture {
-            topPicture.layer.opacity = topLayerOpacity
+            topPicture.updateOpacity(opacity: topLayerOpacity)
         }
     }
     
@@ -134,11 +134,12 @@ class CompareTwoViewController: UIViewController {
         
         switch selectedPicturePosition {
         case .bottom:
+            currentPicture.updateOpacity(opacity: 1)
             bottomPicture = currentPicture
             bottomSelectedPhotoImageView.image = currentPicture.image
         case .top:
+            currentPicture.updateOpacity(opacity: topLayerOpacity)
             topPicture = currentPicture
-            currentPicture.layer.opacity = topLayerOpacity
             topSelectedPhotoImageView.image = currentPicture.image
         }
         
