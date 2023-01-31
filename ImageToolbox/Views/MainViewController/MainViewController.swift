@@ -18,6 +18,8 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: MainCoordinator?
+    
     // MARK: - Methods
     
     override func viewDidLoad() {
@@ -26,9 +28,8 @@ class MainViewController: UIViewController {
         title = "Image Toolbox"
     }
     
-    private func navigateToCompareTwoVC() {
-        let compareTwoVC = CompareTwoViewController()
-        show(compareTwoVC, sender: nil)
+    private func navigateToCompareTwoVC() {        
+        coordinator?.showCompareTwoVC()
     }
 
 }

@@ -29,6 +29,8 @@ class CompareTwoViewController: UIViewController {
     
     // MARK: - Properties
     
+    weak var coordinator: MainCoordinator?
+    
     var photoPickerConf: PHPickerConfiguration {
         var phPickerConf = PHPickerConfiguration()
         phPickerConf.selectionLimit = 1

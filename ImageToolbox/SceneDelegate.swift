@@ -12,7 +12,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // MARK: - Properties
     
     var window: UIWindow?
-    private let mainCoordinator = MainCoordinator()
+    private var mainCoordinator: Coordinator?
     
     // MARK: - Methods
     
@@ -22,15 +22,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        // UINavigation Controller.
+        let navController = UINavigationController()
+        
+        // Main Coordinator.
+        mainCoordinator = MainCoordinator(navigationController: navController)
+        mainCoordinator?.start()
+        
         // Create the window and add the view controller as the root view.
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         if let window = window {
             window.windowScene = windowScene
-            window.rootViewController = mainCoordinator.rootViewController
+            window.rootViewController = mainCoordinator?.navigationController
             window.makeKeyAndVisible()
-            
-            // Start the Coordinator.
-            mainCoordinator.start()
         }
     }
 
